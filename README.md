@@ -18,5 +18,5 @@ ReadyCode provides ready-to-use, tested code snippets for common development tas
 ### 🤝 Contribute
 Feel free to:
 
-🔹 Open an Issue (bug reports/feature requests)🔹 Submit a PR (new providers or improvements).
+🔹 Open an Issue (bug reports/feature requests)🔹 Submit a PR
 
