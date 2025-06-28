@@ -14,13 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import '../../../core/widgets/flushbar.dart';
-import '../../features/buttom_navigation_bar/bottom_navigation_bar.dart';
-import '../../features/home/provider/nearby_your_location_provider.dart';
-import '../../features/home/provider/property_provider.dart';
-import '../../features/profile/model/user_model.dart';
-import '../../features/profile/provider/user_provider.dart';
-import 'firestore_service.dart';
+import '../../../../core/widgets/flushbar.dart';
+import '../../buttom_navigation_bar/bottom_navigation_bar.dart';
+import '../../home/provider/nearby_your_location_provider.dart';
+import '../../home/provider/property_provider.dart';
+import '../../profile/model/user_model.dart';
+import '../../profile/provider/user_provider.dart';
+import '../../../core/services/firestore_service.dart';
 
 class AuthProviders {
   static CollectionReference<Map<String, dynamic>> users = FirebaseFirestore
@@ -237,21 +237,13 @@ class AuthProviders {
       }
     }
   }
-
-  // MARK: - UI Setup
-  /// MARK: - Data Handling
-
+  
   static Future<void> signInWithGoogle(BuildContext context) async {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn.instance;
       await googleSignIn.initialize();
       await googleSignIn.signOut();
-      final GoogleSignInAccount googleUser = await googleSignIn.authenticate(
-        scopeHint: <String>[
-          'https://www.googleapis.com/auth/userinfo.profile',
-          'https://www.googleapis.com/auth/userinfo.email',
-        ],
-      );
+      final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
 
       if (context.mounted) {
         await _checkDeletedAccount(googleUser.email, context);
@@ -288,7 +280,8 @@ class AuthProviders {
       if (context.mounted) _handleAuthException(e, context);
     } catch (e) {
       if (e.toString() ==
-          'GoogleSignInException(code GoogleSignInExceptionCode.canceled, activity is cancelled by the user., null)') {
+              'GoogleSignInException(code GoogleSignInExceptionCode.canceled, activity is cancelled by the user., null)' ||
+          e.toString().contains('GoogleSignInExceptionCode.canceled')) {
         if (context.mounted) {
           showError(context, context.tr('Google Sign-In was canceled'));
         }
@@ -320,6 +313,15 @@ class AuthProviders {
               AppleIDAuthorizationScopes.fullName,
             ],
             nonce: nonce,
+            webAuthenticationOptions:
+                (Platform.isAndroid || kIsWeb)
+                    ? WebAuthenticationOptions(
+                      clientId: 'com.sakank.sakank',
+                      redirectUri: Uri.parse(
+                        'https://sakank-fda3d.firebaseapp.com/__/auth/handler',
+                      ),
+                    )
+                    : null,
           );
 
       if (context.mounted) {
