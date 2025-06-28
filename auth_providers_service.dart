@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as math;
 import 'package:crypto/crypto.dart';
@@ -134,8 +135,17 @@ class AuthProviders {
         navigate();
       }
     } on FirebaseAuthException catch (e) {
+      log(e.toString());
+      if (e.code ==
+          '[firebase_auth/web-context-canceled] The web operation was canceled by the user.') {
+        if (context.mounted) {
+          showError(context, context.tr('GitHub Sign-In was canceled'));
+        }
+      }
       if (context.mounted) _handleAuthException(e, context);
     } catch (e) {
+      log(e.toString());
+
       if (context.mounted && e.toString() != 'Exception: Deleted account') {
         kDebugMode
             ? showError(context, e.toString())
@@ -228,12 +238,20 @@ class AuthProviders {
     }
   }
 
+  // MARK: - UI Setup
+  /// MARK: - Data Handling
+
   static Future<void> signInWithGoogle(BuildContext context) async {
     try {
       final GoogleSignIn googleSignIn = GoogleSignIn.instance;
       await googleSignIn.initialize();
       await googleSignIn.signOut();
-      final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
+      final GoogleSignInAccount googleUser = await googleSignIn.authenticate(
+        scopeHint: <String>[
+          'https://www.googleapis.com/auth/userinfo.profile',
+          'https://www.googleapis.com/auth/userinfo.email',
+        ],
+      );
 
       if (context.mounted) {
         await _checkDeletedAccount(googleUser.email, context);
@@ -270,9 +288,16 @@ class AuthProviders {
       if (context.mounted) _handleAuthException(e, context);
     } catch (e) {
       if (e.toString() ==
-          'GoogleSignInException(code GoogleSignInExceptionCode.canceled, [16] Cancelled by user., null)') {
+          'GoogleSignInException(code GoogleSignInExceptionCode.canceled, activity is cancelled by the user., null)') {
         if (context.mounted) {
           showError(context, context.tr('Google Sign-In was canceled'));
+        }
+      } else if (e.toString().contains('Failed to launch the selector UI')) {
+        if (context.mounted) {
+          showError(
+            context,
+            context.tr('Please check Google Play Services and try again'),
+          );
         }
       } else if (context.mounted &&
           e.toString() != 'Exception: Deleted account') {
