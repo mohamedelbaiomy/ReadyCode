@@ -6,14 +6,14 @@ ReadyCode provides ready-to-use, tested code snippets for common development tas
 
 <br>
 
-## Authentication Providers (auth_providers_service.dart)
+## 🛡 Authentication Providers (auth_providers_service.dart)
 
 | **Google Sign-In** | **Facebook Login** | **Sign in with Apple** | **GitHub Sign in** |
 |--------------------|--------------------|------------------------|---------------------
 
 <br>
 
-## **NameMethods** (`name_methods.dart`)
+## ⛓‍💥 **NameMethods** (`name_methods.dart`)
 
 | Utility | Function | Example | When to Use |
 |---------|----------|---------|-------------|
@@ -72,11 +72,9 @@ Future<List<Post>> loadPosts({DocumentSnapshot? lastDoc}) async {
 
 <br>
 
-# 🔐 Auth Service (`auth_service.dart`)
+## 🔐 Auth Service (`auth_service.dart`)
 
 A **production-grade Firebase authentication wrapper** that simplifies user management while maintaining security best practices.
-
-## 🛠 Method Overview
 
 | Category | Methods | Description |
 |----------|---------|-------------|
@@ -87,7 +85,6 @@ A **production-grade Firebase authentication wrapper** that simplifies user mana
 
 ## 💻 Basic Usage
 
-### 1. Email/Password Auth
 ```dart
 // Sign up new user
 await AuthRepo.signUpWithEmailAndPassword(
@@ -137,9 +134,7 @@ Future<void> createUserProfile() async {
 <br>
 
 
-<br>
-
-### KeepAlivePage (keep_alive_page.dart)
+## 🪄 KeepAlivePage (keep_alive_page.dart)
 A Flutter utility widget that preserves the state of its child widget when navigating away (e.g., in TabBarView, PageView, or stacked routes). Prevents unnecessary rebuilds and maintains scroll positions/form data.
 
 | Utility | Function | Example | When to Use |
