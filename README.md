@@ -110,10 +110,10 @@ if (!await AuthRepo.checkEmailVerification()) {
 }
 
 // Password reset
-await AuthRepo.sendPasswordResetEmail(email: 'user@example.com');
+await AuthRepo.sendPasswordResetEmail(email: 'mohamedelbaiomy262003@gmail.com');
 
 // Update password (after reauthentication)
-await AuthRepo.updateUserPassword(newPassword: 'NewSecurePass456!');
+await AuthRepo.updateUserPassword(newPassword: '123456');
 
 // Combine with Firestore for complete user management
 Future<void> createUserProfile() async {
