@@ -147,6 +147,30 @@ How to use ?
 
 <br>
 
+
+## 🎯 SeeMoreText Widget (see_more_text.dart)
+
+A customizable Flutter widget that automatically truncates long text and shows a "See More / See Less" toggle for better user experience.
+
+### Features:
+✅ Automatically detects if text exceeds the specified line limit
+
+✅ Supports both RTL and LTR languages
+
+✅ Localized button text using easy_localization
+
+✅ Clean and customizable UI
+
+✅ Simple integration into existing projects
+
+### How it works:
+
+The widget uses TextPainter to measure text length and only shows the toggle when content exceeds the maxLines limit. Users can expand/collapse text with a smooth tap interaction.
+
+Perfect for handling long descriptions, comments, or any lengthy content in your Flutter apps!
+
+<br>
+
 ### Star ⭐ the repo if you find these useful!
 
 <br>
